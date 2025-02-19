@@ -1,3 +1,4 @@
+import Bookings from "../database/models/bookings.js";
 import Property from "../database/models/property.js";
 
 const findPropertyByAttribute = async (key, value) => {
@@ -20,8 +21,26 @@ const findActiveProperties = async () => {
     return await Property.find({ status: "active" });
 }
 
+const bookProperty = async (data) => {
+    return await Bookings.create(data);
+}
+
+const findExistingBooking = async (_id, checkOutDate, checkInDate) => {
+    return await Bookings.findOne({
+        property: _id,
+        $or: [
+            {
+                checkInDate: { $lte: checkOutDate },
+                checkOutDate: { $gte: checkInDate }
+            }
+        ]
+    });
+}
+
 export default {
     findPropertyByAttribute,
     saveProperty,
-    findActiveProperties
+    findActiveProperties,
+    bookProperty,
+    findExistingBooking
 }

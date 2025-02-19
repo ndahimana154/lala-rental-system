@@ -1,6 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { getSingleProperty } from '../../state/features/product/productService';
+import {
+  bookProperty,
+  getSingleProperty,
+} from '../../state/features/product/productService';
+import { toast, Toaster } from 'sonner';
 
 function PropertyPage() {
   const { id } = useParams();
@@ -10,8 +14,9 @@ function PropertyPage() {
   const [formData, setFormData] = useState({
     checkIn: '',
     checkOut: '',
-    name: '',
+    names: '',
     email: '',
+    phone: '',
   });
 
   useEffect(() => {
@@ -32,10 +37,39 @@ function PropertyPage() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Booking Details:', formData);
-    alert('Booking submitted successfully!');
+
+    try {
+      const bookingData = {
+        property: id,
+        guest: {
+          names: formData.names,
+          email: formData.email,
+          phone: formData.phone,
+        },
+        checkInDate: new Date(formData.checkIn),
+        checkOutDate: new Date(formData.checkOut),
+      };
+
+      const response = await bookProperty(bookingData);
+
+      if (response.status === 201) {
+        toast.success('Booking submitted successfully');
+        setFormData({
+          checkIn: '',
+          checkOut: '',
+          names: '',
+          email: '',
+          phone: '',
+        });
+      } else {
+        toast.error(response.message);
+      }
+    } catch (error) {
+      console.error('Booking error:', error);
+      alert('Error submitting booking. Please try again.');
+    }
   };
 
   if (loading) {
@@ -56,6 +90,8 @@ function PropertyPage() {
 
   return (
     <div className="min-h-screen bg-[#F8FAFC]">
+      <Toaster richColors position="top-center" />
+
       <div className="container mx-auto p-6">
         <div className="max-w-3xl mx-auto bg-white p-6 shadow-xl rounded-2xl">
           <h2 className="text-4xl font-bold mt-4 text-[#295D42]">
@@ -93,7 +129,6 @@ function PropertyPage() {
                 className="w-full p-2 mb-4 border rounded"
                 required
               />
-
               <label className="block mb-2">Check-out Date:</label>
               <input
                 type="date"
@@ -103,17 +138,15 @@ function PropertyPage() {
                 className="w-full p-2 mb-4 border rounded"
                 required
               />
-
               <label className="block mb-2">Full Name:</label>
               <input
                 type="text"
-                name="name"
-                value={formData.name}
+                name="names"
+                value={formData.names}
                 onChange={handleChange}
                 className="w-full p-2 mb-4 border rounded"
                 required
               />
-
               <label className="block mb-2">Email:</label>
               <input
                 type="email"
@@ -123,7 +156,15 @@ function PropertyPage() {
                 className="w-full p-2 mb-4 border rounded"
                 required
               />
-
+              <label className="block mb-2">Phone Number:</label>
+              <input
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="w-full p-2 mb-4 border rounded"
+                required
+              />
               <button
                 type="submit"
                 className="w-full bg-[#295D42] text-white py-3 rounded-xl text-lg font-semibold hover:bg-[#1DCE5F] transition duration-300"

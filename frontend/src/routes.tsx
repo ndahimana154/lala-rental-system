@@ -23,8 +23,6 @@ const AppRouter = () => {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/services" element={<Services />} />
-      <Route path="/products" element={<Products />} />
       <Route path="/product/:id" element={<SingleProduct />} />
 
       <Route element={<ProtectedRoute />}>

@@ -27,3 +27,12 @@ export const getSingleProperty = async (id: any) => {
         return handleError(error)
     }
 }
+
+export const bookProperty = async (data) => {
+    try {
+        const response = await axiosInstance.post("/api/property/book", data);
+        return response.data
+    } catch (error) {
+        return handleError(error)
+    }
+}

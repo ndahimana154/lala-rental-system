@@ -12,7 +12,7 @@ const propertyRoute = express.Router();
 propertyRoute.post("/create", isUserAuthorized(["host"]), bodyValidation(newPropertySchema), isPropertyAlreadyExists, propertyControllers.createProperty);
 propertyRoute.get("/get-active-properties", propertyControllers.getActiveProperites)
 propertyRoute.get("/single/:id", propertyControllers.getSingleProperty);
-
+propertyRoute.post("/book", propertyControllers.userBookProperty)
 // propertyRoute.put("/:id", (req, res) => {
 //     res.json({ message: `Property with id: ${req.params.id} updated successfully` });
 // });

@@ -59,6 +59,44 @@ const getSingleProperty = async (req, res) => {
     }
 }
 
+const userBookProperty = async (req, res) => {
+    try {
+        // Find the property by its ID
+        const property = await propertyRepositories.findPropertyByAttribute("_id", req.body.property);
+        if (!property) {
+            return res.status(httpStatus.NOT_FOUND).json({
+                status: httpStatus.NOT_FOUND,
+                message: "Property not found with given id"
+            });
+        }
+
+        req.body.property = property._id;
+
+        const existingBooking = propertyRepositories.findExistingBooking(property._id, req.body.checkOutDate, req.body.checkInDate);
+
+        if (existingBooking) {
+            return res.status(httpStatus.BAD_REQUEST).json({
+                status: httpStatus.BAD_REQUEST,
+                message: "This property is already booked for the selected dates."
+            });
+        }
+
+        const book = await propertyRepositories.bookProperty(req.body);
+
+        return res.status(httpStatus.CREATED).json({
+            status: httpStatus.CREATED,
+            message: "Property booked successfully",
+            data: { book, property }
+        });
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            status: httpStatus.INTERNAL_SERVER_ERROR,
+            message: error.message,
+        });
+    }
+};
+
+
 // const getAllProperites = async (req, res) => {
 //     try {
 //         const properties = await propertyRepositories.findActiveProperties();
@@ -79,5 +117,6 @@ const getSingleProperty = async (req, res) => {
 export default {
     createProperty,
     getActiveProperites,
-    getSingleProperty
+    getSingleProperty,
+    userBookProperty
 }

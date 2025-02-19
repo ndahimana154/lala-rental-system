@@ -15,6 +15,7 @@ export default function HomePage() {
   const getProperties = async () => {
     try {
       const response = await getActiveProperties();
+      console.log(response);
       setPropertiesData(response.data.properties);
     } catch (error) {}
   };
