@@ -4,7 +4,6 @@ import { toast, Toaster } from 'sonner';
 import { useFormik } from 'formik';
 import LoginImage from '/loginbg.png';
 import authService from '../../state/features/auth/authService';
-import { GoogleLogin } from 'react-google-login';
 
 const LoginForm = () => {
   const navigate = useNavigate();
@@ -116,12 +115,12 @@ const LoginForm = () => {
               >
                 {formik.isSubmitting ? 'Signing in...' : 'Sign in'}
               </button>
-              <GoogleLogin
+              {/* <GoogleLogin
                 clientId="YOUR_GOOGLE_CLIENT_ID"
                 buttonText="Login with Google"
                 cookiePolicy={'single_host_origin'}
                 className="w-full mt-4"
-              />
+              /> */}
             </form>
           </div>
           <div className="hidden md:block">
