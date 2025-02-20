@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ICategory, IProduct } from '../../types/store';
+import { ICategory } from '../../types/store';
 import productService from '../../state/features/auth/productSlice';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ interface ProductsCOntentsProps {
   lang: any;
 }
 const ProductsContent = ({ lang }: ProductsCOntentsProps) => {
-  const [products, setProducts] = useState<IProduct[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
   const [categories, setCategories] = useState<ICategory[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>('');

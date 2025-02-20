@@ -28,7 +28,7 @@ export const getSingleProperty = async (id: any) => {
     }
 }
 
-export const bookProperty = async (data) => {
+export const bookProperty = async (data: any) => {
     try {
         const response = await axiosInstance.post("/api/property/book", data);
         return response.data

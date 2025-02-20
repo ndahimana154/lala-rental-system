@@ -5,8 +5,10 @@ import { toast, Toaster } from 'sonner';
 import Pagination from '../../components/dashboard/Pagination';
 import SkeletonLoader from '../../components/dashboard/SkeletonLoader';
 import { Link } from 'react-router-dom';
-const deleteProduct = () => {};
-const getAllProducts = () => {};
+const deleteProduct = async (productId: any) => {
+  return productId;
+};
+const getAllProducts = async (): Promise<any> => {};
 const Products = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
@@ -69,10 +71,10 @@ const Products = () => {
   };
 
   const filteredData = data
-    .filter((item: IProductCategory) =>
+    .filter((item: any) =>
       item.name.toLowerCase().includes(search.toLowerCase())
     )
-    .sort((a: IProductCategory, b: IProductCategory) =>
+    .sort((a: any, b: any) =>
       sortOrder === 'asc'
         ? a.name.localeCompare(b.name)
         : b.name.localeCompare(a.name)
@@ -136,7 +138,7 @@ const Products = () => {
             <tbody className="divide-y divide-gray-100">
               {loading && <SkeletonLoader rows={perPage} cols={6} />}
               {!loading && paginatedData.length > 0
-                ? paginatedData.map((item: IProduct) => (
+                ? paginatedData.map((item: any) => (
                     <tr
                       key={item?._id}
                       className="hover:bg-gray-50 transition-colors"

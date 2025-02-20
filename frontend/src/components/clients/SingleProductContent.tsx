@@ -8,7 +8,7 @@ import { toast, Toaster } from 'sonner';
 
 function PropertyPage() {
   const { id } = useParams();
-  const [property, setProperty] = useState(null);
+  const [property, setProperty] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [showBookingForm, setShowBookingForm] = useState(false);
   const [formData, setFormData] = useState({
@@ -33,11 +33,11 @@ function PropertyPage() {
     fetchProperty();
   }, [id]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
 
     try {
