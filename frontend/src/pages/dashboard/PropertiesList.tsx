@@ -40,7 +40,6 @@ const Properties = () => {
     setLoading(true);
     try {
       const response = await getAllProperties();
-      console.log('Our response', response);
       if (response.status === 200) {
         setData(response.data.properties);
       } else {

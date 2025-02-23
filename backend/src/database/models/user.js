@@ -31,8 +31,8 @@ const userSchema = new mongoose.Schema(
     isDisabled: {
       type: Boolean,
       default: false,
-    }
-    , role: {
+    },
+    role: {
       type: String,
       default: "host"
     }

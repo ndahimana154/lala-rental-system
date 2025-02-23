@@ -8,10 +8,10 @@ import { FaTimes } from 'react-icons/fa';
 import { formatDateToCustomString } from '../../helpers/time';
 
 const validationSchema = Yup.object().shape({
-  firstName: Yup.string()
+  firstname: Yup.string()
     .required('First name is required')
     .max(50, 'First name too long'),
-  lastName: Yup.string()
+  lastname: Yup.string()
     .required('Last name is required')
     .max(50, 'Last name too long'),
   email: Yup.string()
@@ -29,8 +29,8 @@ const Profile = () => {
   const [updatedAt, setUpdatedAt] = useState('');
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
+      firstname: '',
+      lastname: '',
       email: '',
       phone: '',
     },
@@ -58,13 +58,14 @@ const Profile = () => {
   const fetchProfile = async () => {
     try {
       const response = await authService.getProfile();
+      console.log('Our profile has been fetched', response);
 
       if (response.status === 200) {
-        const { firstName, lastName, email, phone } = response.data;
+        const { firstname, lastname, email, phone } = response.data.user;
         setUpdatedAt(response.data.updatedAt);
         formik.setValues({
-          firstName: firstName || '',
-          lastName: lastName || '',
+          firstname: firstname || '',
+          lastname: lastname || '',
           email: email || '',
           phone: phone || '',
         });
@@ -139,48 +140,48 @@ const Profile = () => {
             <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-2 sm:gap-x-4">
               <div>
                 <label
-                  htmlFor="firstName"
+                  htmlFor="firstname"
                   className="block text-sm font-medium text-gray-700"
                 >
                   First name
                 </label>
                 <input
-                  id="firstName"
-                  name="firstName"
+                  id="firstname"
+                  name="firstname"
                   type="text"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.firstName}
+                  value={formik.values.firstname}
                   disabled={!isEditing}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm disabled:bg-gray-50"
                 />
-                {formik.touched.firstName && formik.errors.firstName && (
+                {formik.touched.firstname && formik.errors.firstname && (
                   <p className="mt-1 text-sm text-red-600">
-                    {formik.errors.firstName}
+                    {formik.errors.firstname}
                   </p>
                 )}
               </div>
 
               <div>
                 <label
-                  htmlFor="lastName"
+                  htmlFor="lastname"
                   className="block text-sm font-medium text-gray-700"
                 >
                   Last name
                 </label>
                 <input
-                  id="lastName"
-                  name="lastName"
+                  id="lastname"
+                  name="lastname"
                   type="text"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  value={formik.values.lastName}
+                  value={formik.values.lastname}
                   disabled={!isEditing}
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm disabled:bg-gray-50"
                 />
-                {formik.touched.lastName && formik.errors.lastName && (
+                {formik.touched.lastname && formik.errors.lastname && (
                   <p className="mt-1 text-sm text-red-600">
-                    {formik.errors.lastName}
+                    {formik.errors.lastname}
                   </p>
                 )}
               </div>
@@ -233,7 +234,7 @@ const Profile = () => {
                 )}
               </div>
 
-              <div>
+              {/* <div>
                 <label
                   htmlFor="role"
                   className="block text-sm font-medium text-gray-700"
@@ -247,7 +248,7 @@ const Profile = () => {
                   disabled
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary sm:text-sm disabled:bg-gray-50"
                 />
-              </div>
+              </div> */}
             </div>
 
             {isEditing && (

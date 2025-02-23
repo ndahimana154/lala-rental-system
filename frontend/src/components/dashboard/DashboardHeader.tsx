@@ -28,23 +28,6 @@ const DashboardHeader = ({ sideBarToggle }: { sideBarToggle: () => void }) => {
       </div>
 
       <div className="flex items-center gap-3 sm:gap-6">
-        <div className="hidden sm:flex items-center gap-2 bg-secondary py-2 px-3 sm:px-4 rounded-lg">
-          <span className="text-sm sm:text-base">300k RWF</span>
-          <svg
-            className="w-4 h-4 sm:w-5 sm:h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
-            />
-          </svg>
-        </div>
-
         <button className="p-1.5 sm:p-2 hover:bg-secondary rounded-full">
           <svg
             className="w-5 h-5 sm:w-6 sm:h-6"
