@@ -88,9 +88,7 @@ const userBookProperty = async (req, res) => {
         }
 
         req.body.property = property._id;
-
-        const existingBooking = propertyRepositories.findExistingBooking(property._id, req.body.checkOutDate, req.body.checkInDate);
-
+        const existingBooking =await propertyRepositories.findExistingBooking(property._id, req.body.checkOutDate, req.body.checkInDate);
         if (existingBooking) {
             return res.status(httpStatus.BAD_REQUEST).json({
                 status: httpStatus.BAD_REQUEST,
