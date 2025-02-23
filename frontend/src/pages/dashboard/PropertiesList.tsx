@@ -5,11 +5,11 @@ import { toast, Toaster } from 'sonner';
 import Pagination from '../../components/dashboard/Pagination';
 import SkeletonLoader from '../../components/dashboard/SkeletonLoader';
 import { Link } from 'react-router-dom';
+import { getAllProperties } from '../../state/features/product/productService';
 const deleteProduct = async (productId: any) => {
   return productId;
 };
-const getAllProducts = async (): Promise<any> => {};
-const Products = () => {
+const Properties = () => {
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState([]);
   const [search, setSearch] = useState('');
@@ -39,18 +39,19 @@ const Products = () => {
   const fetchProducts = async () => {
     setLoading(true);
     try {
-      const response = await getAllProducts();
+      const response = await getAllProperties();
+      console.log('Our response', response);
       if (response.status === 200) {
-        setData(response.data);
+        setData(response.data.properties);
       } else {
         toast.error(
-          response.message || 'An unexpected error occurred fetching products'
+          response.message || 'An unexpected error occurred fetching properties'
         );
       }
     } catch (error: any) {
-      console.error('Error fetching products', error);
+      console.error('Error fetching properties', error);
       toast.error(
-        error.message || 'An unexpected error occurred fetching products'
+        error.message || 'An unexpected error occurred fetching properties'
       );
     } finally {
       setLoading(false);
@@ -72,12 +73,12 @@ const Products = () => {
 
   const filteredData = data
     .filter((item: any) =>
-      item.name.toLowerCase().includes(search.toLowerCase())
+      item.title.toLowerCase().includes(search.toLowerCase())
     )
     .sort((a: any, b: any) =>
       sortOrder === 'asc'
-        ? a.name.localeCompare(b.name)
-        : b.name.localeCompare(a.name)
+        ? a.title.localeCompare(b.title)
+        : b.title.localeCompare(a.title)
     );
 
   const paginatedData = filteredData.slice(
@@ -93,10 +94,10 @@ const Products = () => {
         <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
           <div>
             <h1 className="text-2xl font-semibold text-gray-800">
-              Products Management
+              Properties Management
             </h1>
             <p className="text-gray-500 mt-1 text-sm">
-              Manage your products easily here.
+              Manage your properties easily here.
             </p>
           </div>
           <input
@@ -113,22 +114,19 @@ const Products = () => {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider cursor-pointer">
-                  Image
+                  #
                 </th>
                 <th
                   className="px-6 py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider cursor-pointer"
                   onClick={handleSort}
                 >
-                  Name {sortOrder === 'asc' ? '🔼' : '🔽'}
+                  Title {sortOrder === 'asc' ? '🔼' : '🔽'}
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider cursor-pointer">
-                  Price
+                  Description
                 </th>
                 <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider cursor-pointer">
-                  Category
-                </th>
-                <th className="px-6 py-4 text-left text-sm font-semibold text-gray-600 uppercase tracking-wider cursor-pointer">
-                  Stock
+                  Price Per Night
                 </th>
                 <th className="px-6 py-4 text-right text-sm font-semibold text-gray-600 uppercase tracking-wider">
                   Actions
@@ -138,46 +136,26 @@ const Products = () => {
             <tbody className="divide-y divide-gray-100">
               {loading && <SkeletonLoader rows={perPage} cols={6} />}
               {!loading && paginatedData.length > 0
-                ? paginatedData.map((item: any) => (
+                ? paginatedData.map((item: any, key) => (
                     <tr
-                      key={item?._id}
+                      key={key}
                       className="hover:bg-gray-50 transition-colors"
                     >
                       <td className="px-6 whitespace-nowrap text-sm font-medium text-gray-800 relative">
-                        <div className="relative w-24 h-20 flex items-center justify-center">
-                          {item.images
-                            .slice(0, 4)
-                            .map((image: any, index: number) => {
-                              const angle = (index / 4) * 360;
-                              const radius = 10;
-                              return (
-                                <img
-                                  key={index}
-                                  src={image}
-                                  alt={`${item.name} ${index + 1}`}
-                                  className="w-20 h-10 rounded-lg absolute transition-all"
-                                  style={{
-                                    transform: `translate(${
-                                      radius * Math.cos(angle)
-                                    }px, ${radius * Math.sin(angle)}px)`,
-                                  }}
-                                />
-                              );
-                            })}
+                        {++key}
+                      </td>
+
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                        {item?.title}
+                      </td>
+                      <td className="px-6 py-4 text-sm font-medium text-gray-800 w-64">
+                        <div className="line-clamp-2 overflow-hidden">
+                          {item?.description}
                         </div>
                       </td>
 
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                        {item?.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                        {item?.price}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                        {item?.category?.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                        {item?.name}
+                        {item?.pricePerNight}RWF
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm space-x-2">
                         <Link
@@ -255,4 +233,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default Properties;

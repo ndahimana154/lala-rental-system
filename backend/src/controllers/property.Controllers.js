@@ -36,6 +36,23 @@ const getActiveProperites = async (req, res) => {
     }
 }
 
+const getAllProperties = async (req, res) => {
+    try {
+        const properties = await propertyRepositories.findAllProperties();
+
+        return res.status(httpStatus.OK).json({
+            status: httpStatus.OK,
+            message: "Active properties fetched successfully",
+            data: { properties }
+        })
+    } catch (error) {
+        return res.status(httpStatus.INTERNAL_SERVER_ERROR).json({
+            status: httpStatus.INTERNAL_SERVER_ERROR,
+            message: error.message
+        })
+    }
+}
+
 const getSingleProperty = async (req, res) => {
     try {
         const property = await propertyRepositories.findPropertyByAttribute("_id", req.params.id);
@@ -118,5 +135,6 @@ export default {
     createProperty,
     getActiveProperites,
     getSingleProperty,
-    userBookProperty
+    userBookProperty,
+    getAllProperties
 }

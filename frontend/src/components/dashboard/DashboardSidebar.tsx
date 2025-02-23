@@ -7,7 +7,7 @@ import {
   FaUser,
   FaSignOutAlt,
 } from 'react-icons/fa';
-import { PlusCircleIcon } from 'lucide-react';
+import { List, PlusCircleIcon } from 'lucide-react';
 
 interface DashboardSidebarProps {
   isSidebarOpen: boolean;
@@ -30,7 +30,7 @@ const DashboardSidebar = ({
   }, []);
 
   const commonLinks = [
-    { name: 'New property', icon: <PlusCircleIcon /> },
+    { name: 'Properties', icon: <List /> },
     { name: 'Profile', icon: <FaUser /> },
   ];
   const adminLinks = [

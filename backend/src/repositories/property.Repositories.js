@@ -18,7 +18,7 @@ const updateProperty = async (id, data) => {
 }
 
 const findActiveProperties = async () => {
-    return await Property.find({ status: "active" });
+    return await Property.find({ status: "active" }).sort({ createdAt: -1 })
 }
 
 const bookProperty = async (data) => {
@@ -37,10 +37,15 @@ const findExistingBooking = async (_id, checkOutDate, checkInDate) => {
     });
 }
 
+const findAllProperties = async () => {
+    return await Property.find().sort({ createdAt: -1 })
+}
+
 export default {
     findPropertyByAttribute,
     saveProperty,
     findActiveProperties,
     bookProperty,
-    findExistingBooking
+    findExistingBooking,
+    findAllProperties
 }

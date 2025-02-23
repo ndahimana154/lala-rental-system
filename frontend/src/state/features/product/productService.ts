@@ -36,3 +36,12 @@ export const bookProperty = async (data: any) => {
         return handleError(error)
     }
 }
+
+export const getAllProperties = async () => {
+    try {
+        const response = await axiosInstance.get("/api/property/get-all-properties");
+        return response.data
+    } catch (error) {
+        return handleError(error)
+    }
+}

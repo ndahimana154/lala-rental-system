@@ -4,7 +4,6 @@ import Login from './pages/Login';
 import Dashboard from './pages/dashboard/Dashboard';
 import SingleProduct from './pages/SingleProduct';
 import DashboardLayout from './pages/dashboard/DashboardLayout';
-import DashboardProducts from './pages/dashboard/Products';
 import ProtectedRoute from './components/dashboard/ProtectedRoute';
 import AdminRoute from './components/dashboard/AdminRoute';
 import TechnicianRoute from './components/dashboard/TechnicianRoute';
@@ -14,6 +13,7 @@ import NewUser from './pages/dashboard/NewUser';
 import Chats from './pages/dashboard/Chats';
 import Logout from './components/dashboard/Logout';
 import NewProperty from './pages/dashboard/NewProperty';
+import Properties from './pages/dashboard/PropertiesList';
 
 const AppRouter = () => {
   return (
@@ -25,9 +25,10 @@ const AppRouter = () => {
       <Route element={<ProtectedRoute />}>
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="new-property" element={<NewProperty />} />
+          <Route path="properties" element={<Properties />} />
+
           <Route element={<AdminRoute />}>
             <Route index={true} element={<Dashboard />} />
-            <Route path="products" element={<DashboardProducts />} />
             <Route path="manage-users" element={<AdminViewUsers />} />
             <Route path="manage-users/new" element={<NewUser />} />
           </Route>
